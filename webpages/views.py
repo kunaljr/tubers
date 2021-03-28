@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
 
 def home(request):
-    pass
+    return HttpResponse("<html><body>It is now %s.</body></html>")
 
 def about(request):
     pass
