@@ -1,16 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Slider
 
 # Create your views here.
 
 def home(request):
-    return HttpResponse("<html><body>It is now %s.</body></html>")
+    sliders=Slider.objects.all()
+    data = {
+        'sliders': sliders
+    }
+    return render(request,'webpages/home.html',data)
 
 def about(request):
-    pass
+    return render(request,'webpages/about.html')
 
 def services(request):
-    pass
+    return render(request,'webpages/services.html')
 
 def contact(request):
-    pass
+    return render(request,'webpages/contact.html')
