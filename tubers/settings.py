@@ -32,6 +32,7 @@ LOGIN_REDIRECT_URL ='dashboard'
 
 
 INSTALLED_APPS = [
+    'hiretubers.apps.HiretubersConfig',
     'accounts.apps.AccountsConfig',
     'youtubers.apps.YoutubersConfig',
     'webpages.apps.WebpagesConfig',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    
 ]
 
 MIDDLEWARE = [
