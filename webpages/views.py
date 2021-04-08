@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Slider, Team
+from .models import Slider, Team, Aboutus
 from youtubers.models import Youtuber
 
 # Create your views here.
@@ -19,7 +19,13 @@ def home(request):
     return render(request,'webpages/home.html',data)
 
 def about(request):
-    return render(request,'webpages/about.html')
+    teams=Team.objects.all()
+    aboutus=Aboutus.objects.order_by('-created_date')
+    data={
+        'teams':teams,
+        'aboutus':aboutus
+    }
+    return render(request,'webpages/about.html',data)
 
 def services(request):
     return render(request,'webpages/services.html')
