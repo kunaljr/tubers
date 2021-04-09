@@ -1,4 +1,126 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>services</h1>
-{% endblock %}
+<main class="tubers-page">
+    <div class="banner">
+      <img src="{% static './assets/images/bg-banner.png' %}" alt="" class="img-fluid w-100">
+      <h1 class="text-center">
+        Buy Them a Coffee
+      </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+          {% include 'messages.html' %}
+        </div>
+      </div>
+    <section class="container mt-5 mb-5">
+      <div class="row ">
+        <div class="col-lg-8 mb-2 ">
+          <section class="tubers">
+
+
+
+            <!-- person 1 -->
+            {% for tuber in tubers %}
+            <div class="card border-0 text-center">
+              <div class="feature-text">
+                <a href="{% url 'youtubers_detail' tuber.id %}">
+                    <img src="{{tuber.photo.url}}" class="card-img-top" alt="team-member">
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{tuber.name}}</h5>
+                <p class="card-text">{{tuber.role}}</p>
+                <div class="person-description mt-2 ml-5">
+                    <form action="{% url 'services' %}" method="POST" class="btn btn-accent ml-3">
+                        {% csrf_token %}
+                        <script
+                            src="https://checkout.razorpay.com/v1/checkout.js"
+                            data-key="rzp_test_31strWsI9bxav2" 
+                            data-amount="10000" 
+                            data-currency="INR"
+                            data-order_id="{{payment.id}}"
+                            data-buttontext="Buy a Cofee"
+                            data-name="{{tuber.name}}"
+                            data-description="Buy a Coffee"
+                            data-image="{% static './assets/images/logo.png' %}"
+                            data-prefill.name="kunal shelke"
+                            data-prefill.email="{{user.email}}"
+                            data-theme.color="#e56237"
+                        ></script>
+                        <input type="hidden"  custom="Hidden Element" name="hidden">
+                        </form>
+                  <!-- <button class="btn btn-accent ml-5"> Buy </button> -->
+                  <!-- <button class="btn btn-accent"> Age : {{tuber.age}}</button>
+                  <button class="btn btn-accent"> Height : {{tuber.height}} </button> -->
+                </div>
+                <!-- <div class="person-description mt-2">
+                  <button class="btn btn-accent"> Solo : {{tuber.crew}}</button>
+                  <button class="btn btn-accent"> Canon : {{tuber.camera_type}}</button>
+                  <button class="btn btn-accent"> Subs : {{tuber.subs_count}}</button>
+                </div> -->
+              </div>
+            </div>
+            {% endfor %}
+
+          </section>
+        </div>
+
+        <div class="col-lg-4 ">
+          <div class="card">
+            <div class="card-body">
+              <p class="text-left font-weight-bolder text-black-50">
+                Search Tubers
+              </p>
+              <form method="GET" action="{% url 'search' %}">
+                <div class="form-group">
+                  <select name="city" id="inputState" class="form-control">
+                    <option selected disabled hidden>City</option>
+                    {% for city in city_search %}
+                    <option value="{{city}}">{{city}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select name="camera_type" id="inputState" class="form-control">
+                    <option selected disabled hidden>Camera Type</option>
+                    {% for camera in camera_type_search %}
+              <option value="{{camera}}">{{camera}}</option>
+              {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select name="category" class="form-control">
+                    <option selected disabled hidden>Category</option>
+                    {% for category in category_search%}
+              <option value="{{category}}"> {{category}}</option>
+              {% endfor %}
+                  </select>
+                </div>
+
+                <button class="btn btn-accent btn-block">Search</button>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container section pagination-section mt-3">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </main>{% endblock %}

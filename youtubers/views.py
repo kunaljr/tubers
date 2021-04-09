@@ -1,9 +1,10 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Youtuber
-
+from contact_details.models import Contact_detail
 # Create your views here.
 
 def youtubers(request):
+    contact_detail=Contact_detail.objects.all()
     tubers=Youtuber.objects.order_by('-created_date')
     city_search=Youtuber.objects.values_list('city',flat=True)
     camera_type_search=Youtuber.objects.values_list('camera_type',flat=True)
@@ -28,14 +29,17 @@ def youtubers(request):
         'tubers':tubers,
         'city_search':city_search,
         'camera_type_search':camera_type_search,
-        'category_search':category_search
+        'category_search':category_search,
+        'contact_detail':contact_detail
     }
     return render(request,'youtubers/youtubers.html',data)
 
 def youtubers_detail(request,id):
     tuber= get_object_or_404(Youtuber, pk=id)
+    contact_detail=Contact_detail.objects.all()
     data={
-        'tuber':tuber
+        'tuber':tuber,
+        'contact_detail':contact_detail
     }
     return render(request,'youtubers/youtuber_detail.html',data)
 
@@ -44,6 +48,7 @@ def search(request):
     city_search=Youtuber.objects.values_list('city',flat=True)
     camera_type_search=Youtuber.objects.values_list('camera_type',flat=True)
     category_search=Youtuber.objects.values_list('category',flat=True)
+    contact_detail=Contact_detail.objects.all()
 
     if 'keyword' in request.GET:
         keyword= request.GET['keyword']
@@ -69,6 +74,7 @@ def search(request):
         'tubers':tubers,
         'city_search':city_search,
         'camera_type_search':camera_type_search,
-        'category_search':category_search
+        'category_search':category_search,
+        'contact_detail':contact_detail
     }
     return render(request,'youtubers/search.html',data)

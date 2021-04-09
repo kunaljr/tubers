@@ -3,9 +3,12 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import  User
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
+from contact_details.models import Contact_detail
+from hiretubers.models import Hiretuber
 
 # Create your views here.
 def login(request):
+    contact_detail=Contact_detail.objects.all()
     if request.method == 'POST':
         username=request.POST['username']
         password=request.POST['password']
@@ -18,10 +21,16 @@ def login(request):
         else:
             messages.warning(request,'Invalid Credentials') 
             return redirect('login')
+    
+    data={
+        'contact_detail':contact_detail
+    }
+    
 
-    return render(request,'accounts/login.html')
+    return render(request,'accounts/login.html',data)
 
 def register(request):
+    contact_detail=Contact_detail.objects.all()
     if request.method == 'POST':
         firstname= request.POST['firstname']
         lastname= request.POST['lastname']
@@ -47,8 +56,11 @@ def register(request):
         else:
             messages.warning(request,'Password do not match')
             return redirect('register')
+    data={
+        'contact_detail':contact_detail
+    }
         
-    return render(request,'accounts/register.html')
+    return render(request,'accounts/register.html',data)
 
 def logout_user(request):
     logout(request)
@@ -57,4 +69,10 @@ def logout_user(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request,'accounts/dashboard.html')
+    contact_detail=Contact_detail.objects.all()
+    hiretuber=Hiretuber.objects.all()
+    data={
+        'contact_detail':contact_detail,
+        'hiretuber':hiretuber
+    }
+    return render(request,'accounts/dashboard.html',data)
