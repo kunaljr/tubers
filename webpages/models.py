@@ -1,5 +1,6 @@
 from django.db import models
-
+from ckeditor.fields import RichTextField
+from datetime import datetime
 # Create your models here.
 class Team(models.Model):
     first_name=models.CharField(max_length=255)
@@ -23,3 +24,10 @@ class Slider(models.Model):
     urllink=models.CharField(max_length=255)
     def __str__(self):
         return self.headline
+
+class Aboutus(models.Model):
+    photo=models.ImageField(upload_to='media/aboutus/%Y/%m/%d/')
+    description=RichTextField()
+    created_date=models.DateTimeField(blank=True,default=datetime.now)
+
+    
