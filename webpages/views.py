@@ -43,7 +43,7 @@ def services(request):
     if request.method == 'POST':
         amount = 50000
         order_currency = 'INR'
-        client= razorpay.Client(auth=('rzp_test_31strWsI9bxav2','mM5xQlqkxPoslSEvL1dEiM98'))
+        client= razorpay.Client(auth=('',''))
         payment=client.order.create({'amount':amount,'currency':'INR','payment_capture':'1'})
         messages.success(request,'Thank You for a Coffee')
         return redirect('services')
